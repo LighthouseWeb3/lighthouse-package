@@ -127,10 +127,28 @@ async function fetchWithTimeout(
   }
 }
 
+/**
+ * Adjusts the URL's protocol to 'http' or 'https' based on the ssl parameter.
+ *
+ * @param url - The URL to be adjusted.
+ * @param useHttp - A boolean that determines whether to use 'http' (true) or 'https' (false).
+ * @returns The adjusted URL as a string.
+ */
+function adjustUrlProtocol(url: string, useHttp: boolean): string {
+  try {
+      const parsedUrl = new URL(url);
+      parsedUrl.protocol = useHttp ? 'http:' : 'https:';
+      return parsedUrl.toString();
+  } catch (error) {
+      throw new Error(`Invalid URL: ${url}`);
+  }
+}
+
 export {
   isCID,
   isPrivateKey,
   addressValidator,
   checkDuplicateFileNames,
   fetchWithTimeout,
+  adjustUrlProtocol,
 }

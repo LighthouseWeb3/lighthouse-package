@@ -1,6 +1,6 @@
 {
   "name": "@lighthouse-web3/sdk",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "NPM package and CLI tool to interact with lighthouse protocol",
   "main": "./dist/Lighthouse/index.js",
   "types": "./dist/Lighthouse/index.d.ts",
@@ -54,7 +54,6 @@
     "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.5.0",
     "@types/mime-types": "^2.1.1",
-    "@types/node": "^20.5.3",
     "@types/read": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",

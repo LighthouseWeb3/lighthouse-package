@@ -1,9 +1,10 @@
 import { lighthouseConfig } from '../../../lighthouse.config'
+import { adjustUrlProtocol } from '../../utils/util'
 
-export default async (buffer: any, apiKey: string, mimeType = '') => {
+export default async (buffer: any, apiKey: string, mimeType = '', useHttp:boolean = false) => {
   try {
     const token = 'Bearer ' + apiKey
-    const endpoint = lighthouseConfig.lighthouseNode + '/api/v0/add'
+    const endpoint = adjustUrlProtocol(`${lighthouseConfig.lighthouseUploadGateway}/api/v0/add`,useHttp)
 
     // Upload file
     const blob = new Blob([buffer])

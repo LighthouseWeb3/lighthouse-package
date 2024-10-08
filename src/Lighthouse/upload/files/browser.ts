@@ -5,22 +5,23 @@ import {
   UploadFileReturnType,
   DealParameters,
 } from '../../../types'
-import { fetchWithTimeout } from '../../utils/util'
+import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export default async <T extends boolean>(
   files: any,
   accessToken: string,
   dealParameters: DealParameters | undefined,
-  uploadProgressCallback?: (data: IUploadProgressCallback) => void
+  uploadProgressCallback?: (data: IUploadProgressCallback) => void,
+  useHttp: boolean = false
 ): Promise<{ data: UploadFileReturnType<T> }> => {
   try {
     const isDirectory = [...files].some(file => file.webkitRelativePath)
-    let endpoint = lighthouseConfig.lighthouseNode + `/api/v0/add?wrap-with-directory=false`
+    // Determine the correct wrap-with-directory parameter
+    const wrapWithDirectory = (!isDirectory && files.length > 1) ? 'true' : 'false';
 
-    if(!isDirectory && files.length > 1) {
-      endpoint = lighthouseConfig.lighthouseNode + `/api/v0/add?wrap-with-directory=true`
-    }
+    // Construct the endpoint with the dynamic parameter
+    let endpoint = adjustUrlProtocol(`${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=${wrapWithDirectory}`,useHttp);
 
     const formData = new FormData()
     for (let i = 0; i < files.length; i++) {

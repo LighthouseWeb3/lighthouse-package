@@ -1,7 +1,7 @@
 import basePathConvert from '../../utils/basePathConvert'
 import { lighthouseConfig } from '../../../lighthouse.config'
 import { UploadFileReturnType, DealParameters } from '../../../types'
-import { fetchWithTimeout } from '../../utils/util'
+import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
 export async function walk(dir: string) {
   const { readdir, stat } = eval(`require`)('fs-extra')
@@ -22,10 +22,12 @@ export async function walk(dir: string) {
   return results
 }
 
+
 export default async <T extends boolean>(
   sourcePath: string,
   apiKey: string,
-  dealParameters: DealParameters | undefined
+  dealParameters: DealParameters | undefined,
+  useHttp: boolean = false
 ): Promise<{ data: UploadFileReturnType<T> }> => {
   const { createReadStream, lstatSync } = eval(`require`)('fs-extra')
   const path = eval(`require`)('path')
@@ -33,9 +35,7 @@ export default async <T extends boolean>(
   const token = 'Bearer ' + apiKey
   const stats = lstatSync(sourcePath)
   try {
-    const endpoint =
-      lighthouseConfig.lighthouseNode +
-      `/api/v0/add?wrap-with-directory=false`
+    const endpoint = adjustUrlProtocol(`${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=false`,useHttp)
     if (stats.isFile()) {
       const data = new FormData()
       const stream = createReadStream(sourcePath)
@@ -103,7 +103,10 @@ export default async <T extends boolean>(
       }
 
       let responseData = (await response.text()) as any
-      responseData = JSON.parse(responseData)
+      responseData = responseData
+      .trim()
+      .split('\n')
+      .map((line : string) => JSON.parse(line));
 
       return { data: responseData }
     }
