@@ -83,11 +83,13 @@ const getQuote = async (path: string, apiKey: string, Spinner: any) => {
   }
 }
 
-const uploadFile = async (path: string, apiKey: string) => {
+const uploadFile = async (path: string, apiKey: string, useHttp?: boolean) => {
   const spinner = new Spinner('Uploading...')
   spinner.start()
 
-  const uploadResponse = (await lighthouse.upload(path, apiKey)).data
+  const uploadResponse = (
+    await lighthouse.upload(path, apiKey, undefined, undefined, useHttp)
+  ).data
 
   spinner.stop()
   process.stdout.clearLine(-1)
