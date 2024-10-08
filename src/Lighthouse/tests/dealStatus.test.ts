@@ -7,7 +7,7 @@ describe('dealStatus', () => {
         'QmaiauHSgTDMy2NtLbsygL3iKmLXBqHf39SBA1nAQFSSey'
       )
     ).data
-    
+
     expect(response[0]).toHaveProperty('dealStatus')
     expect(response[0]).toHaveProperty('dealUUID')
     expect(response[0]).toHaveProperty('dealId')

@@ -1,10 +1,18 @@
 import { lighthouseConfig } from '../../../lighthouse.config'
-import { fetchWithTimeout,adjustUrlProtocol } from '../../utils/util'
+import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
-export default async (text: string, apiKey: string, name: string, useHttp: boolean = false) => {
+export default async (
+  text: string,
+  apiKey: string,
+  name: string,
+  useHttp = false
+) => {
   try {
     const token = 'Bearer ' + apiKey
-    const endpoint = adjustUrlProtocol(`${lighthouseConfig.lighthouseUploadGateway}/api/v0/add`,useHttp)
+    const endpoint = adjustUrlProtocol(
+      `${lighthouseConfig.lighthouseUploadGateway}/api/v0/add`,
+      useHttp
+    )
 
     // Upload file
     const formData = new FormData()

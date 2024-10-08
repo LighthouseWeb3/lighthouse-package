@@ -136,11 +136,11 @@ async function fetchWithTimeout(
  */
 function adjustUrlProtocol(url: string, useHttp: boolean): string {
   try {
-      const parsedUrl = new URL(url);
-      parsedUrl.protocol = useHttp ? 'http:' : 'https:';
-      return parsedUrl.toString();
+    const parsedUrl = new URL(url)
+    parsedUrl.protocol = useHttp ? 'http:' : 'https:'
+    return parsedUrl.toString()
   } catch (error) {
-      throw new Error(`Invalid URL: ${url}`);
+    throw new Error(`Invalid URL: ${url}`)
   }
 }
 

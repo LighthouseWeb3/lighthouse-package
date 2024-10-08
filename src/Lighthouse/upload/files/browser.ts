@@ -13,15 +13,17 @@ export default async <T extends boolean>(
   accessToken: string,
   dealParameters: DealParameters | undefined,
   uploadProgressCallback?: (data: IUploadProgressCallback) => void,
-  useHttp: boolean = false
+  useHttp = false
 ): Promise<{ data: UploadFileReturnType<T> }> => {
   try {
-    const isDirectory = [...files].some(file => file.webkitRelativePath)
-    // Determine the correct wrap-with-directory parameter
-    const wrapWithDirectory = (!isDirectory && files.length > 1) ? 'true' : 'false';
+    const isDirectory = [...files].some((file) => file.webkitRelativePath)
+    const wrapWithDirectory =
+      !isDirectory && files.length > 1 ? 'true' : 'false'
 
-    // Construct the endpoint with the dynamic parameter
-    let endpoint = adjustUrlProtocol(`${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=${wrapWithDirectory}`,useHttp);
+    const endpoint = adjustUrlProtocol(
+      `${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=${wrapWithDirectory}`,
+      useHttp
+    )
 
     const formData = new FormData()
     for (let i = 0; i < files.length; i++) {
