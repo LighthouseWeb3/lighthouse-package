@@ -124,6 +124,7 @@ widgets
 
 widgets
   .command('upload')
+  .option('-h, --http', 'Use HTTP instead of HTTPS')
   .description('Upload a file')
   .argument('<path>', 'Path to file')
   .action(upload)

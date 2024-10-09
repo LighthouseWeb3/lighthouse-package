@@ -88,7 +88,13 @@ const uploadFile = async (path: string, apiKey: string, useHttp?: boolean) => {
   spinner.start()
 
   const uploadResponse = (
-    await lighthouse.upload(path, apiKey, undefined, undefined, useHttp)
+    await lighthouse.upload(
+      path,
+      apiKey,
+      undefined,
+      undefined,
+      useHttp
+    )
   ).data
 
   spinner.stop()
@@ -120,7 +126,7 @@ const uploadFile = async (path: string, apiKey: string, useHttp?: boolean) => {
   return
 }
 
-export default async function (_path: string) {
+export default async function (_path: string, _options: any) {
   if (!_path) {
     console.log(
       'lighthouse-web3 upload <path>\r\n\r\n' +
@@ -176,13 +182,13 @@ export default async function (_path: string) {
         )
       }
 
-      const _options = {
+      const _authOptions = {
         prompt: 'Enter your password: ',
         silent: true,
         default: '',
       }
 
-      const password: any = await readInput(_options)
+      const password: any = await readInput(_authOptions)
 
       const decryptedWallet = ethers.Wallet.fromEncryptedJsonSync(
         config.get('LIGHTHOUSE_GLOBAL_WALLET') as string,
@@ -194,7 +200,7 @@ export default async function (_path: string) {
       }
 
       const apiKey = config.get('LIGHTHOUSE_GLOBAL_API_KEY') as string
-      await uploadFile(path, apiKey)
+      await uploadFile(path, apiKey, _options.http || _options.h)
     } catch (error: any) {
       console.log(red(error.message))
       process.exit(0)
