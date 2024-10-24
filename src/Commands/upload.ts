@@ -92,7 +92,6 @@ const uploadFile = async (path: string, apiKey: string, useHttp?: boolean) => {
       path,
       apiKey,
       undefined,
-      undefined,
       useHttp
     )
   ).data

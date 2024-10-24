@@ -2,8 +2,7 @@
 import { lighthouseConfig } from '../../../lighthouse.config'
 import {
   IUploadProgressCallback,
-  UploadFileReturnType,
-  DealParameters,
+  UploadFileReturnType
 } from '../../../types'
 import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
@@ -11,7 +10,6 @@ import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 export default async <T extends boolean>(
   files: any,
   accessToken: string,
-  dealParameters: DealParameters | undefined,
   uploadProgressCallback?: (data: IUploadProgressCallback) => void,
   useHttp = false
 ): Promise<{ data: UploadFileReturnType<T> }> => {
@@ -33,10 +31,7 @@ export default async <T extends boolean>(
     const token = 'Bearer ' + accessToken
 
     const headers = new Headers({
-      Authorization: token,
-      'X-Deal-Parameter': dealParameters
-        ? JSON.stringify(dealParameters)
-        : 'null',
+      Authorization: token
     })
 
     const response = uploadProgressCallback

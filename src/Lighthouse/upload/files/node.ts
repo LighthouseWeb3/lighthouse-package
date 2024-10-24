@@ -1,6 +1,6 @@
 import basePathConvert from '../../utils/basePathConvert'
 import { lighthouseConfig } from '../../../lighthouse.config'
-import { UploadFileReturnType, DealParameters } from '../../../types'
+import { UploadFileReturnType } from '../../../types'
 import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
 export async function walk(dir: string) {
@@ -25,7 +25,6 @@ export async function walk(dir: string) {
 export default async <T extends boolean>(
   sourcePath: string,
   apiKey: string,
-  dealParameters: DealParameters | undefined,
   useHttp = false
 ): Promise<{ data: UploadFileReturnType<T> }> => {
   const { createReadStream, lstatSync } = eval(`require`)('fs-extra')
@@ -54,10 +53,7 @@ export default async <T extends boolean>(
         body: data,
         timeout: 7200000,
         headers: {
-          Authorization: token,
-          'X-Deal-Parameter': dealParameters
-            ? JSON.stringify(dealParameters)
-            : 'null',
+          Authorization: token
         },
       })
 
@@ -89,10 +85,7 @@ export default async <T extends boolean>(
         body: data,
         timeout: 7200000,
         headers: {
-          Authorization: token,
-          'X-Deal-Parameter': dealParameters
-            ? JSON.stringify(dealParameters)
-            : 'null',
+          Authorization: token
         },
       })
 
