@@ -3,18 +3,23 @@ import { generate, saveShards } from '@lighthouse-web3/kavach'
 import { encryptFile } from '../../encryptionNode'
 import { walk } from '../../../upload/files/node'
 import { IFileUploadedResponse } from '../../../../types'
-import { fetchWithTimeout } from '../../../utils/util'
+import { adjustUrlProtocol, fetchWithTimeout } from '../../../utils/util'
 
 export default async (
   sourcePath: any,
   apiKey: string,
   publicKey: string,
-  auth_token: string
+  auth_token: string,
+  useHttp = false
 ): Promise<{ data: IFileUploadedResponse[] }> => {
   const fs = eval('require')('fs-extra')
   const token = 'Bearer ' + apiKey
-  const endpoint =
-    lighthouseConfig.lighthouseNode + '/api/v0/add?wrap-with-directory=false'
+
+  const endpoint = adjustUrlProtocol(
+    `${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=false`,
+    useHttp
+  )
+
   const stats = fs.lstatSync(sourcePath)
 
   if (stats.isFile()) {

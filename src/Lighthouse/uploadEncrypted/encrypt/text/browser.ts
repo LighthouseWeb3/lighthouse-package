@@ -2,18 +2,22 @@
 import { encryptFile } from '../../encryptionBrowser'
 import { generate, saveShards } from '@lighthouse-web3/kavach'
 import { lighthouseConfig } from '../../../../lighthouse.config'
-import { fetchWithTimeout } from '../../../utils/util'
+import { adjustUrlProtocol, fetchWithTimeout } from '../../../utils/util'
 
 export default async (
   text: string,
   apiKey: string,
   publicKey: string,
   signedMessage: string,
-  name: string
+  name: string,
+  useHttp = false
 ) => {
   try {
     const token = 'Bearer ' + apiKey
-    const endpoint = lighthouseConfig.lighthouseNode + '/api/v0/add'
+    const endpoint = adjustUrlProtocol(
+      `${lighthouseConfig.lighthouseUploadGateway}/api/v0/add`,
+      useHttp
+    )
 
     // Upload file
     const formData = new FormData()

@@ -88,12 +88,7 @@ const uploadFile = async (path: string, apiKey: string, useHttp?: boolean) => {
   spinner.start()
 
   const uploadResponse = (
-    await lighthouse.upload(
-      path,
-      apiKey,
-      undefined,
-      useHttp
-    )
+    await lighthouse.upload(path, apiKey, undefined, useHttp)
   ).data
 
   spinner.stop()

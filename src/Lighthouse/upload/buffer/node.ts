@@ -1,11 +1,7 @@
 import { lighthouseConfig } from '../../../lighthouse.config'
 import { adjustUrlProtocol } from '../../utils/util'
 
-export default async (
-  buffer: any,
-  apiKey: string,
-  useHttp = false
-) => {
+export default async (buffer: any, apiKey: string, useHttp = false) => {
   try {
     const token = 'Bearer ' + apiKey
     const endpoint = adjustUrlProtocol(
@@ -22,7 +18,7 @@ export default async (
       method: 'POST',
       body: formData,
       headers: {
-        Authorization: token
+        Authorization: token,
       },
     })
 

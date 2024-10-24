@@ -1,9 +1,6 @@
 import uploadFile from './node'
 import uploadFileBrowser from './browser'
-import {
-  IUploadProgressCallback,
-  IFileUploadedResponse,
-} from '../../../types'
+import { IUploadProgressCallback, IFileUploadedResponse } from '../../../types'
 
 async function uploadFiles(
   sourcePath: string | any,

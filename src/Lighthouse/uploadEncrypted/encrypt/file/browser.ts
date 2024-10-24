@@ -6,7 +6,11 @@ import {
 } from '../../../../types'
 import { encryptFile } from '../../encryptionBrowser'
 import { lighthouseConfig } from '../../../../lighthouse.config'
-import { checkDuplicateFileNames, fetchWithTimeout } from '../../../utils/util'
+import {
+  adjustUrlProtocol,
+  checkDuplicateFileNames,
+  fetchWithTimeout,
+} from '../../../utils/util'
 
 declare const FileReader: any
 
@@ -29,7 +33,8 @@ export default async (
   apiKey: string,
   publicKey: string,
   auth_token: string,
-  uploadProgressCallback?: (data: IUploadProgressCallback) => void
+  uploadProgressCallback?: (data: IUploadProgressCallback) => void,
+  useHttp = false
 ): Promise<{ data: IFileUploadedResponse[] }> => {
   try {
     let keyMap = {} as any
@@ -37,8 +42,12 @@ export default async (
     if (files.length === 1) {
       mimeType = files[0].type
     }
-    const endpoint =
-      lighthouseConfig.lighthouseNode + '/api/v0/add?wrap-with-directory=false'
+
+    const endpoint = adjustUrlProtocol(
+      `${lighthouseConfig.lighthouseUploadGateway}/api/v0/add?wrap-with-directory=false`,
+      useHttp
+    )
+
     const token = 'Bearer ' + apiKey
 
     const fileArr = []

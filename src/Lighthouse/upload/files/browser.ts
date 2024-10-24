@@ -1,9 +1,6 @@
 /* istanbul ignore file */
 import { lighthouseConfig } from '../../../lighthouse.config'
-import {
-  IUploadProgressCallback,
-  UploadFileReturnType
-} from '../../../types'
+import { IUploadProgressCallback, UploadFileReturnType } from '../../../types'
 import { fetchWithTimeout, adjustUrlProtocol } from '../../utils/util'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -31,7 +28,7 @@ export default async <T extends boolean>(
     const token = 'Bearer ' + accessToken
 
     const headers = new Headers({
-      Authorization: token
+      Authorization: token,
     })
 
     const response = uploadProgressCallback

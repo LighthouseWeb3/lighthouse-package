@@ -131,6 +131,7 @@ widgets
 
 widgets
   .command('upload-encrypted')
+  .option('-h, --http', 'Use HTTP instead of HTTPS')
   .description('Upload a file encrypted')
   .argument('<path>', 'Path')
   .action(uploadEncrypted)

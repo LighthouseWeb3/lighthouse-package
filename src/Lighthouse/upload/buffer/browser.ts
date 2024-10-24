@@ -1,11 +1,7 @@
 import { lighthouseConfig } from '../../../lighthouse.config'
 import { adjustUrlProtocol } from '../../utils/util'
 
-export default async (
-  blob: any,
-  apiKey: string,
-  useHttp = false
-) => {
+export default async (blob: any, apiKey: string, useHttp = false) => {
   try {
     const token = 'Bearer ' + apiKey
     const endpoint = adjustUrlProtocol(

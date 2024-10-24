@@ -53,7 +53,7 @@ export default async <T extends boolean>(
         body: data,
         timeout: 7200000,
         headers: {
-          Authorization: token
+          Authorization: token,
         },
       })
 
@@ -85,7 +85,7 @@ export default async <T extends boolean>(
         body: data,
         timeout: 7200000,
         headers: {
-          Authorization: token
+          Authorization: token,
         },
       })
 

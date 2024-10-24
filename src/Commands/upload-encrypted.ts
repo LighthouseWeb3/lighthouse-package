@@ -84,7 +84,12 @@ const getQuote = async (path: string, apiKey: string, Spinner: any) => {
   }
 }
 
-const uploadFile = async (path: string, signer: any, apiKey: string) => {
+const uploadFile = async (
+  path: string,
+  signer: any,
+  apiKey: string,
+  useHttp?: boolean
+) => {
   const spinner = new Spinner('Uploading...')
   spinner.start()
 
@@ -99,7 +104,9 @@ const uploadFile = async (path: string, signer: any, apiKey: string) => {
       path,
       apiKey,
       config.get('LIGHTHOUSE_GLOBAL_PUBLICKEY') as string,
-      signedMessage
+      signedMessage,
+      undefined,
+      useHttp
     )
   ).data
 
@@ -128,7 +135,7 @@ const uploadFile = async (path: string, signer: any, apiKey: string) => {
   return
 }
 
-export default async function (_path: string) {
+export default async function (_path: string, _options: any) {
   if (!_path) {
     console.log(
       'lighthouse-web3 upload-encrypted <path>\r\n\r\n' +
@@ -217,7 +224,7 @@ export default async function (_path: string) {
 
       const signer = new ethers.Wallet(decryptedWallet.privateKey)
       const apiKey = config.get('LIGHTHOUSE_GLOBAL_API_KEY') as string
-      await uploadFile(path, signer, apiKey)
+      await uploadFile(path, signer, apiKey, _options.http || _options.h)
     } catch (error: any) {
       console.log(red(error.message))
       process.exit(0)
