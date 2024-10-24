@@ -99,7 +99,7 @@ export default async <T extends boolean>(
         .split('\n')
         .map((line: string) => JSON.parse(line))
 
-      return { data: responseData }
+      return { data: responseData[0] }
     }
   } catch (error: any) {
     throw new Error(error.message)
