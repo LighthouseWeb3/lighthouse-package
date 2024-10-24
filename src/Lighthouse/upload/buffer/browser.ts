@@ -4,7 +4,6 @@ import { adjustUrlProtocol } from '../../utils/util'
 export default async (
   blob: any,
   apiKey: string,
-  mimeType = '',
   useHttp = false
 ) => {
   try {
@@ -22,7 +21,6 @@ export default async (
       method: 'POST',
       body: formData,
       headers: {
-        'Mime-Type': mimeType,
         Authorization: token,
       },
     })
