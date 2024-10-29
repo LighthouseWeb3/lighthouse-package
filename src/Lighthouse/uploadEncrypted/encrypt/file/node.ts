@@ -101,7 +101,9 @@ export default async (
     }
 
     const responseText = await response.text()
-    const jsondata = JSON.parse(responseText) as IFileUploadedResponse[]
+    let data = responseText.split('\n')
+    data = data.splice(0, data.length - 1)
+    const jsondata = data.map((data) => JSON.parse(data))
 
     const savedKey = await Promise.all(
       jsondata.map(async (data) => {
