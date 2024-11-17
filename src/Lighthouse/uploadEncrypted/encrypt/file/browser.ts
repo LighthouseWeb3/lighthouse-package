@@ -110,26 +110,13 @@ export default async (
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    // const reader = response.body?.getReader()
-    // let chunks = []
-    // while (true) {
-    //   const { done, value } = await reader!.read()
-    //   if (done) {
-    //     break
-    //   }
-    //   chunks.push(value)
-    // }
-
-    // let responseData = new TextDecoder('utf-8').decode(
-    //   new Uint8Array(chunks.flatMap((chunk) => [...chunk]))
-    // ) as any
     const responseText = await response.text()
-    const jsondata = JSON.parse(responseText) as IFileUploadedResponse[]
-
-    // responseData = JSON.parse(responseData)
+    let data = responseText.split('\n')
+    data = data.splice(0, data.length - 1)
+    const jsondata = data.map((data) => JSON.parse(data))
 
     const savedKey = await Promise.all(
-      jsondata.map(async (data: IFileUploadedResponse) => {
+      jsondata.map(async (data) => {
         return saveShards(publicKey, data.Hash, auth_token, keyMap[data.Name])
       })
     )
@@ -138,6 +125,7 @@ export default async (
         throw new Error(JSON.stringify(_savedKey))
       }
     })
+    return { data: jsondata }
 
     // return response
     /*
@@ -149,8 +137,6 @@ export default async (
         }]
       }
     */
-
-    return { data: jsondata }
   } catch (error: any) {
     return error.message
   }
